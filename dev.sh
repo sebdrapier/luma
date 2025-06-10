@@ -27,7 +27,7 @@ shift $((OPTIND-1))
 
 if $BUILD_FRONTEND; then
   echo "Building frontend..."
-  (cd src/frontend && npm run build)
+  (cd src/frontend && npm i && npm run build)
 fi
 
 echo "Starting backend..."
