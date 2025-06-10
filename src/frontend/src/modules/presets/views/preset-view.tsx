@@ -20,7 +20,7 @@ export const PresetView = () => {
     );
   }
 
-  if (!presets || presets.length === 0) {
+  if (!presets) {
     return (
       <InfoAlert
         title="No presets found"

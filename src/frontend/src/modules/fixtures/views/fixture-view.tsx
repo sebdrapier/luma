@@ -21,7 +21,7 @@ export const FixtureView = () => {
     );
   }
 
-  if (!fixtures || fixtures.length === 0) {
+  if (!fixtures) {
     return (
       <InfoAlert
         title="No fixtures found"

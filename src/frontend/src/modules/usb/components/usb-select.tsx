@@ -36,7 +36,7 @@ export const USBSelect: FC<USBSelectProps> = ({
       />
     );
 
-  if (!usbs || usbs.length === 0)
+  if (!usbs)
     return (
       <InfoAlert
         title="No USB interfaces found"

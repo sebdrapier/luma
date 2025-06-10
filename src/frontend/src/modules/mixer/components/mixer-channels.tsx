@@ -11,6 +11,7 @@ export const MixersChannels = () => {
 
   const getChannelValue = (address: number) =>
     dmxState?.channels?.find((c) => c.address === address)?.value ?? 0;
+  
   return (
     <div className="p-4 grid gap-6">
       {projectConfig.fixtures.map((fixture) => (

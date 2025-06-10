@@ -20,7 +20,7 @@ export const ShowView = () => {
     );
   }
 
-  if (!shows || shows.length === 0) {
+  if (!shows) {
     return (
       <InfoAlert
         title="No shows found"
