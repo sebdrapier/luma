@@ -1,0 +1,26 @@
+/* Scrollbar width */
+::-webkit-scrollbar {
+  width: 0.5rem; /* w-2 = 8px = 0.5rem */
+}
+
+/* Scrollbar track */
+::-webkit-scrollbar-track {
+  background-color: #f3f4f6; /* gray-100 */
+  border-radius: 9999px; /* rounded-full */
+}
+
+/* Scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #d1d5db; /* gray-300 */
+  border-radius: 9999px; /* rounded-full */
+}
+
+/* Dark-mode overrides */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background-color: #404040; /* neutral-700 */
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #737373; /* neutral-500 */
+  }
+}
