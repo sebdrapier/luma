@@ -2,7 +2,6 @@ package ws
 
 import (
 	"log"
-	"time"
 
 	"github.com/gofiber/contrib/websocket"
 )
@@ -24,8 +23,7 @@ func handleBroadcast() {
 						clients.Delete(c)
 					}
 				}()
-				c.SetWriteDeadline(time.Now().Add(5 * time.Second))
-				if err := c.WriteJSON(msg); err != nil {
+				if err := writeJSON(c, msg); err != nil {
 					log.Printf("Error broadcasting to client: %v", err)
 					clients.Delete(c)
 				}

@@ -3,6 +3,7 @@ package ws
 import (
 	"encoding/json"
 	"log"
+	"sync"
 	"time"
 
 	"github.com/gofiber/contrib/websocket"
@@ -18,10 +19,37 @@ func sendError(c *websocket.Conn, errType, message, details string) {
 		Type:    "error",
 		Payload: mustMarshal(ErrorResponse{Error: message, Details: details}),
 	}
-	c.SetWriteDeadline(time.Now().Add(5 * time.Second))
-	if err := c.WriteJSON(response); err != nil {
+	if err := writeJSON(c, response); err != nil {
 		log.Printf("Error sending error message: %v", err)
 	}
+}
+func getConnMutex(c *websocket.Conn) *sync.Mutex {
+	if m, ok := clients.Load(c); ok {
+		if mu, ok := m.(*sync.Mutex); ok {
+			return mu
+		}
+	}
+	return nil
+}
+
+func writeJSON(c *websocket.Conn, v interface{}) error {
+	mu := getConnMutex(c)
+	if mu != nil {
+		mu.Lock()
+		defer mu.Unlock()
+	}
+	c.SetWriteDeadline(time.Now().Add(5 * time.Second))
+	return c.WriteJSON(v)
+}
+
+func writeMessage(c *websocket.Conn, messageType int, data []byte) error {
+	mu := getConnMutex(c)
+	if mu != nil {
+		mu.Lock()
+		defer mu.Unlock()
+	}
+	c.SetWriteDeadline(time.Now().Add(5 * time.Second))
+	return c.WriteMessage(messageType, data)
 }
 
 func getClientCount() int {

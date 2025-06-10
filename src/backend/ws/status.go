@@ -1,8 +1,6 @@
 package ws
 
 import (
-	"time"
-
 	"github.com/gofiber/contrib/websocket"
 )
 
@@ -42,8 +40,7 @@ func handleGetStatus(c *websocket.Conn) {
 		"connected_clients": getClientCount(),
 	}
 
-	c.SetWriteDeadline(time.Now().Add(5 * time.Second))
-	c.WriteJSON(Message{
+	writeJSON(c, Message{
 		Type:    "status",
 		Payload: mustMarshal(status),
 	})

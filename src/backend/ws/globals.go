@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	clients        sync.Map
+	clients        sync.Map // *websocket.Conn -> *sync.Mutex
 	broadcast      = make(chan Message, 100)
 	dmxCtrl        *driver.DMXController
 	dmxCtrlMu      sync.RWMutex

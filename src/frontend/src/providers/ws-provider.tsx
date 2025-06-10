@@ -79,6 +79,7 @@ function useInternalDmxWebSocket(url: string, reconnectOnClose = true) {
     onOpen: () => console.log("WebSocket connecté"),
     onError: (e) => console.error("WS Erreur", e),
     shouldReconnect: () => reconnectOnClose,
+    reconnectAttempts: 10,
     retryOnError: true,
     share: true,
   });

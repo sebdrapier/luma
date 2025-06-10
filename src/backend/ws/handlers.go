@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"strconv"
+	"sync"
 	"time"
 
 	"elano.fr/src/backend/driver"
@@ -13,7 +14,7 @@ import (
 )
 
 func handleWebSocket(c *websocket.Conn) {
-	clients.Store(c, true)
+	clients.Store(c, &sync.Mutex{})
 	clientID := c.Locals("id")
 	log.Printf("WebSocket client connected: %v", clientID)
 	sendCurrentState(c)
@@ -43,8 +44,7 @@ func handleWebSocket(c *websocket.Conn) {
 			case <-ctx.Done():
 				return
 			case <-pingTicker.C:
-				c.SetWriteDeadline(time.Now().Add(5 * time.Second))
-				if err := c.WriteMessage(websocket.PingMessage, nil); err != nil {
+				if err := writeMessage(c, websocket.PingMessage, nil); err != nil {
 					return
 				}
 			}
@@ -252,8 +252,7 @@ func handleStopShow(c *websocket.Conn) {
 		currentShow = nil
 	}
 	showMu.Unlock()
-	c.SetWriteDeadline(time.Now().Add(5 * time.Second))
-	c.WriteJSON(Message{Type: "show_stopped", Payload: json.RawMessage("{}")})
+	writeJSON(c, Message{Type: "show_stopped", Payload: json.RawMessage("{}")})
 }
 
 func handleUpdateChannel(c *websocket.Conn, payload json.RawMessage) {
@@ -340,8 +339,7 @@ func handleGetDMXState(c *websocket.Conn) {
 	}
 	showMu.Unlock()
 	state := DMXState{Channels: states, ActivePresetID: ap, ActiveShowID: as, ShowStep: step, ShowLoop: loop, Timestamp: time.Now().UnixMilli()}
-	c.SetWriteDeadline(time.Now().Add(5 * time.Second))
-	c.WriteJSON(Message{Type: "dmx_state", Payload: mustMarshal(state)})
+	writeJSON(c, Message{Type: "dmx_state", Payload: mustMarshal(state)})
 }
 
 func handleGetProjectConfig(c *websocket.Conn) {
@@ -361,18 +359,15 @@ func handleGetProjectConfig(c *websocket.Conn) {
 		"presets":      project.Presets,
 		"shows":        project.Shows,
 	}
-	c.SetWriteDeadline(time.Now().Add(5 * time.Second))
-	c.WriteJSON(Message{Type: "project_config", Payload: mustMarshal(config)})
+	writeJSON(c, Message{Type: "project_config", Payload: mustMarshal(config)})
 }
 
 func handleStartMonitoring(c *websocket.Conn) {
 	startMonitoring()
-	c.SetWriteDeadline(time.Now().Add(5 * time.Second))
-	c.WriteJSON(Message{Type: "monitoring_started", Payload: json.RawMessage("{}")})
+	writeJSON(c, Message{Type: "monitoring_started", Payload: json.RawMessage("{}")})
 }
 
 func handleStopMonitoring(c *websocket.Conn) {
 	stopMonitoring()
-	c.SetWriteDeadline(time.Now().Add(5 * time.Second))
-	c.WriteJSON(Message{Type: "monitoring_stopped", Payload: json.RawMessage("{}")})
+	writeJSON(c, Message{Type: "monitoring_stopped", Payload: json.RawMessage("{}")})
 }
