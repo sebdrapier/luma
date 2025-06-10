@@ -79,6 +79,10 @@ func runShowSequence(ctx context.Context, ctrl *driver.DMXController, show ShowP
 			}
 		}
 
+		if !show.Loop {
+			break
+		}
+
 		select {
 		case <-ctx.Done():
 			return
