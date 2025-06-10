@@ -122,10 +122,6 @@ func main() {
 		NotFoundFile: "index.html", // pour le mode SPA
 	}))
 
-	app.Get("/*", func(c *fiber.Ctx) error {
-		return c.SendFile("./public/index.html")
-	})
-
 	shutdownChan := make(chan os.Signal, 1)
 	signal.Notify(shutdownChan, os.Interrupt, syscall.SIGTERM)
 
