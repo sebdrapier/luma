@@ -13,6 +13,7 @@ import { Play, Trash2 } from "lucide-react";
 import type { FC } from "react";
 import { useDeleteShow } from "../show-api";
 import type { Show } from "../show-types";
+import { EditShowSheet } from "./edit-show-sheet";
 
 interface ShowTableProps {
   shows: Show[];
@@ -55,6 +56,8 @@ export const ShowTable: FC<ShowTableProps> = ({ shows }) => {
                 >
                   <Play className="w-4 h-4" />
                 </Button>
+
+                <EditShowSheet show={show} />
 
                 <DeleteModal
                   onConfirm={() => deleteMutation.mutate(show.id)}

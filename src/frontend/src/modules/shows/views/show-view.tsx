@@ -3,6 +3,7 @@ import { InfoAlert } from "@/components/info-alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ShowTable } from "../components/show-table";
 import { useShows } from "../show-api";
+import { NewShowSheet } from "../components/new-show-sheet";
 
 export const ShowView = () => {
   const { data: shows, isLoading, isError } = useShows();
@@ -33,6 +34,7 @@ export const ShowView = () => {
     <div className="container mx-auto space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-extrabold tracking-tight w-max">Shows</h1>
+        <NewShowSheet />
       </div>
 
       <ShowTable shows={shows} />
