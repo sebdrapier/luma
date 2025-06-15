@@ -1,7 +1,7 @@
 package api
 
 import (
-	"elano.fr/src/backend/driver"
+	"elano.fr/src/backend/dmx"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -11,7 +11,7 @@ func RegisterUSBRoutes(app *fiber.App) {
 }
 
 func GetUSBInterfaces(c *fiber.Ctx) error {
-	ports, err := driver.ListDMXPorts()
+	ports, err := dmx.ListDMXPorts()
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": err.Error(),

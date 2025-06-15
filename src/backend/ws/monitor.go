@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"elano.fr/src/backend/driver"
+	"elano.fr/src/backend/dmx"
 )
 
 func startMonitoring() {
@@ -58,7 +58,7 @@ func broadcastDMXState() {
 		return
 	}
 	var channelStates []ChannelState
-	for i := 0; i < driver.DMXChannels; i++ {
+	for i := 0; i < dmx.DMXChannels; i++ {
 		if channels[i] > 0 {
 			channelStates = append(channelStates, ChannelState{Address: i + 1, Value: channels[i]})
 		}

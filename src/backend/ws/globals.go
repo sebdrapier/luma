@@ -4,14 +4,14 @@ import (
 	"sync"
 	"time"
 
-	"elano.fr/src/backend/driver"
+	"elano.fr/src/backend/dmx"
 	"elano.fr/src/backend/storage"
 )
 
 var (
 	clients        sync.Map // *websocket.Conn -> *sync.Mutex
 	broadcast      = make(chan Message, 100)
-	dmxCtrl        *driver.DMXController
+	dmxCtrl        *dmx.DMXController
 	dmxCtrlMu      sync.RWMutex
 	currentShow    *ShowController
 	showMu         sync.Mutex

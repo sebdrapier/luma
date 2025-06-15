@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"elano.fr/src/backend/driver"
+	"elano.fr/src/backend/dmx"
 	"elano.fr/src/backend/storage"
 )
 
@@ -20,7 +20,7 @@ func InitializeDMXController(portName string) error {
 			log.Printf("Error closing existing DMX controller: %v", err)
 		}
 	}
-	ctrl, err := driver.NewDMXController(portName)
+	ctrl, err := dmx.NewDMXController(portName)
 	if err != nil {
 		return err
 	}

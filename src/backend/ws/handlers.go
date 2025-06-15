@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"elano.fr/src/backend/driver"
+	"elano.fr/src/backend/dmx"
 	"elano.fr/src/backend/models"
 	"github.com/gofiber/contrib/websocket"
 )
@@ -320,7 +320,7 @@ func handleGetDMXState(c *websocket.Conn) {
 		return
 	}
 	var states []ChannelState
-	for i := 0; i < driver.DMXChannels; i++ {
+	for i := 0; i < dmx.DMXChannels; i++ {
 		if channels[i] > 0 {
 			states = append(states, ChannelState{Address: i + 1, Value: channels[i]})
 		}

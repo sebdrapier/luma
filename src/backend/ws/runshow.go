@@ -6,10 +6,10 @@ import (
 	"strconv"
 	"time"
 
-	"elano.fr/src/backend/driver"
+	"elano.fr/src/backend/dmx"
 )
 
-func runShowSequence(ctx context.Context, ctrl *driver.DMXController, show ShowPayload, showID string) {
+func runShowSequence(ctx context.Context, ctrl *dmx.DMXController, show ShowPayload, showID string) {
 	defer func() {
 		if r := recover(); r != nil {
 			log.Printf("Recovered from panic in runShowSequence: %v", r)
@@ -56,7 +56,7 @@ func runShowSequence(ctx context.Context, ctrl *driver.DMXController, show ShowP
 			}
 
 			if step.FadeMs > 0 {
-				if err := ctrl.FadeChannels(channels, time.Duration(step.FadeMs)*time.Millisecond, driver.FadeLinear); err != nil {
+				if err := ctrl.FadeChannels(channels, time.Duration(step.FadeMs)*time.Millisecond, dmx.FadeLinear); err != nil {
 					performManualFade(ctx, ctrl, channels, step.FadeMs)
 				}
 			} else {
@@ -91,7 +91,7 @@ func runShowSequence(ctx context.Context, ctrl *driver.DMXController, show ShowP
 	}
 }
 
-func performManualFade(ctx context.Context, ctrl *driver.DMXController, targetChannels map[int]byte, fadeMs int) {
+func performManualFade(ctx context.Context, ctrl *dmx.DMXController, targetChannels map[int]byte, fadeMs int) {
 	currentChannels, err := ctrl.GetAllChannels()
 	if err != nil {
 		ctrl.SetChannels(targetChannels)
