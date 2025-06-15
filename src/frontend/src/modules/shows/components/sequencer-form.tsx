@@ -68,6 +68,7 @@ export const SequencerForm: FC<SequencerFormProps> = ({ show, onSubmit }) => {
       steps: show?.steps.map((s) => ({
         preset_id: s.preset_id,
         beats: Math.round(s.delay_ms / beatDefault),
+        fade: s.fade_ms,
       })) ?? [{ preset_id: "", beats: 1 }],
     },
   });
@@ -172,7 +173,7 @@ export const SequencerForm: FC<SequencerFormProps> = ({ show, onSubmit }) => {
                   <FormItem className="col-span-2">
                     <FormLabel>Fade</FormLabel>
                     <FormControl>
-                      <Input type="number" min={1} {...field} />
+                      <Input type="number" min={0} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
