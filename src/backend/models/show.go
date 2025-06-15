@@ -8,6 +8,6 @@ type Show struct {
 
 type ShowStep struct {
 	PresetID string `yaml:"preset_id" json:"preset_id"`
-	DelayMS  int    `yaml:"delay_ms" json:"delay_ms"`
+	Duration int    `yaml:"duration" json:"duration"`
 	FadeMS   int    `yaml:"fade_ms" json:"fade_ms"`
 }

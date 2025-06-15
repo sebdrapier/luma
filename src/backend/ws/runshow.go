@@ -70,11 +70,11 @@ func runShowSequence(ctx context.Context, ctrl *dmx.DMXController, show ShowPayl
 				Payload: mustMarshal(map[string]interface{}{"step": i, "total": len(show.Steps), "show_id": showID}),
 			}
 
-			if step.DelayMs > 0 {
+			if step.Duration > 0 {
 				select {
 				case <-ctx.Done():
 					return
-				case <-time.After(time.Duration(step.DelayMs) * time.Millisecond):
+				case <-time.After(time.Duration(step.Duration) * time.Millisecond):
 				}
 			}
 		}

@@ -20,9 +20,9 @@ type ChannelUpdatePayload struct {
 type PresetPayload map[string]int
 
 type ShowStep struct {
-	Preset  PresetPayload `json:"preset"`
-	DelayMs int           `json:"delay_ms"`
-	FadeMs  int           `json:"fade_ms"`
+	Preset   PresetPayload `json:"preset"`
+	Duration int           `json:"duration"`
+	FadeMs   int           `json:"fade_ms"`
 }
 
 type ShowPayload struct {

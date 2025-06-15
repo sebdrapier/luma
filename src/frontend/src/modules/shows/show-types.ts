@@ -6,6 +6,6 @@ export interface Show {
 
 export interface ShowStep {
   preset_id: string;
-  delay_ms: number;
+  duration: number;
   fade_ms: number;
 }

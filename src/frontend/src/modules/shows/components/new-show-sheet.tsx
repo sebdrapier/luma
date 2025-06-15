@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { SequencerForm } from "./sequencer-form";
+import { ShowForm } from "./show-form";
 
 export const NewShowSheet = () => {
   const [open, setOpen] = useState(false);
@@ -32,7 +32,7 @@ export const NewShowSheet = () => {
           </SheetDescription>
         </SheetHeader>
         <div className="flex-1 overflow-y-auto min-h-0 p-4">
-          <SequencerForm onSubmit={() => setOpen(false)} />
+          <ShowForm onSubmit={() => setOpen(false)} />
         </div>
       </SheetContent>
     </Sheet>

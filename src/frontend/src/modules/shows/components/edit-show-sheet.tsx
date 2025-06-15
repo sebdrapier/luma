@@ -12,7 +12,7 @@ import {
 import { Edit2 } from "lucide-react";
 import { useState, type FC } from "react";
 import type { Show } from "../show-types";
-import { SequencerForm } from "./sequencer-form";
+import { ShowForm } from "./show-form";
 
 interface EditShowSheetProps {
   show: Show;
@@ -38,7 +38,7 @@ export const EditShowSheet: FC<EditShowSheetProps> = ({ show }) => {
           <SheetDescription>Update name and steps</SheetDescription>
         </SheetHeader>
         <div className="flex-1 overflow-y-auto min-h-0 p-4">
-          <SequencerForm show={show} onSubmit={() => setOpen(false)} />
+          <ShowForm show={show} onSubmit={() => setOpen(false)} />
         </div>
       </SheetContent>
     </Sheet>

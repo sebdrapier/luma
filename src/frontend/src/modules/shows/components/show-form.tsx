@@ -37,7 +37,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-interface SequencerFormProps {
+interface ShowFormProps {
   show?: Show;
   onSubmit?: () => void;
 }
@@ -51,12 +51,12 @@ function gcd(a: number, b: number): number {
   return a;
 }
 
-export const SequencerForm: FC<SequencerFormProps> = ({ show, onSubmit }) => {
+export const ShowForm: FC<ShowFormProps> = ({ show, onSubmit }) => {
   const beatDefault =
     show && show.steps.length > 0
       ? show.steps.reduce(
-          (acc, s) => gcd(acc, s.delay_ms),
-          show.steps[0].delay_ms
+          (acc, s) => gcd(acc, s.duration),
+          show.steps[0].duration
         )
       : 1000;
 
@@ -67,7 +67,7 @@ export const SequencerForm: FC<SequencerFormProps> = ({ show, onSubmit }) => {
       beat_duration_ms: beatDefault,
       steps: show?.steps.map((s) => ({
         preset_id: s.preset_id,
-        beats: Math.round(s.delay_ms / beatDefault),
+        beats: Math.round(s.duration / beatDefault),
         fade: s.fade_ms,
       })) ?? [{ preset_id: "", beats: 1 }],
     },
@@ -84,7 +84,7 @@ export const SequencerForm: FC<SequencerFormProps> = ({ show, onSubmit }) => {
   const handleSubmit = async (values: FormValues) => {
     const steps: ShowStep[] = values.steps.map((s) => ({
       preset_id: s.preset_id,
-      delay_ms: s.beats * values.beat_duration_ms,
+      duration: s.beats * values.beat_duration_ms,
       fade_ms: s.fade,
     }));
 

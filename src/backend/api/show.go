@@ -95,11 +95,11 @@ func RegisterShowRoutes(app *fiber.App, store storage.ProjectStore) {
 					"step_index": i,
 				})
 			}
-			if step.DelayMS < 0 {
+			if step.Duration < 0 {
 				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-					"error":      "Delay must be non-negative",
+					"error":      "Duration must be non-negative",
 					"step_index": i,
-					"delay_ms":   step.DelayMS,
+					"duraion":   step.Duration,
 				})
 			}
 			if step.FadeMS < 0 {
@@ -178,11 +178,11 @@ func RegisterShowRoutes(app *fiber.App, store storage.ProjectStore) {
 					"step_index": i,
 				})
 			}
-			if step.DelayMS < 0 {
+			if step.Duration < 0 {
 				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-					"error":      "Delay must be non-negative",
+					"error":      "Duration must be non-negative",
 					"step_index": i,
-					"delay_ms":   step.DelayMS,
+					"duration":   step.Duration,
 				})
 			}
 			if step.FadeMS < 0 {

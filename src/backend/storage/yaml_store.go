@@ -156,8 +156,8 @@ func validateLoadedProject(p *models.Project) error {
 			if step.PresetID == "" {
 				return fmt.Errorf("show[%d].step[%d] preset ID is missing", i, j)
 			}
-			if step.DelayMS < 0 {
-				return fmt.Errorf("show[%d].step[%d] has negative delay", i, j)
+			if step.Duration < 0 {
+				return fmt.Errorf("show[%d].step[%d] has negative duration", i, j)
 			}
 			if step.FadeMS < 0 {
 				return fmt.Errorf("show[%d].step[%d] has negative fade time", i, j)

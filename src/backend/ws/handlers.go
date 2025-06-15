@@ -197,7 +197,7 @@ func handleRunShow(c *websocket.Conn, payload json.RawMessage) {
 									for _, ch := range p.Channels {
 										preset[strconv.Itoa(ch.DMXAddress)] = int(ch.Value)
 									}
-									show.Steps[i] = ShowStep{Preset: preset, DelayMs: step.DelayMS, FadeMs: step.FadeMS}
+									show.Steps[i] = ShowStep{Preset: preset, Duration: step.Duration, FadeMs: step.FadeMS}
 									break
 								}
 							}

@@ -102,7 +102,7 @@ export function formatShowForPlayback(
 
     return {
       preset: channels,
-      delay_ms: step.delay_ms,
+      duration: step.duration,
     };
   });
 
