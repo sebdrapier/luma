@@ -24,6 +24,7 @@ import type { Show, ShowStep } from "../show-types";
 const stepSchema = z.object({
   preset_id: z.string().min(1, { message: "Preset is required" }),
   beats: z.coerce.number().int().min(1, { message: "Beats must be >= 1" }),
+  fade: z.coerce.number().int(),
 });
 
 const schema = z.object({
@@ -83,7 +84,7 @@ export const SequencerForm: FC<SequencerFormProps> = ({ show, onSubmit }) => {
     const steps: ShowStep[] = values.steps.map((s) => ({
       preset_id: s.preset_id,
       delay_ms: s.beats * values.beat_duration_ms,
-      fade_ms: 0,
+      fade_ms: s.fade,
     }));
 
     try {
@@ -134,12 +135,12 @@ export const SequencerForm: FC<SequencerFormProps> = ({ show, onSubmit }) => {
         <div className="space-y-4">
           <FormLabel>Steps</FormLabel>
           {fields.map((field, index) => (
-            <div key={field.id} className="grid grid-cols-8 gap-2 items-end">
+            <div key={field.id} className="grid grid-cols-9 gap-2 items-end">
               <FormField
                 control={form.control}
                 name={`steps.${index}.preset_id`}
                 render={({ field }) => (
-                  <FormItem className="col-span-5">
+                  <FormItem className="col-span-4">
                     <FormLabel>Preset</FormLabel>
                     <FormControl>
                       <PresetSelect
@@ -164,6 +165,19 @@ export const SequencerForm: FC<SequencerFormProps> = ({ show, onSubmit }) => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name={`steps.${index}.fade`}
+                render={({ field }) => (
+                  <FormItem className="col-span-2">
+                    <FormLabel>Fade</FormLabel>
+                    <FormControl>
+                      <Input type="number" min={1} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button
                 type="button"
                 variant="destructive"
@@ -179,7 +193,7 @@ export const SequencerForm: FC<SequencerFormProps> = ({ show, onSubmit }) => {
             type="button"
             className="w-full"
             variant="outline"
-            onClick={() => append({ preset_id: "", beats: 1 })}
+            onClick={() => append({ preset_id: "", beats: 1, fade: 0 })}
           >
             <Plus className="mr-2 h-4 w-4" />
             Step
