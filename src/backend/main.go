@@ -43,6 +43,11 @@ func main() {
 
 	ws.SetProjectStore(store)
 
+	dmxPort := ""
+	if project := store.Get(); project != nil {
+		dmxPort = project.USBInterface
+	}
+
 	app := fiber.New(fiber.Config{
 		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
 			code := fiber.StatusInternalServerError
@@ -100,11 +105,11 @@ func main() {
 	api.RegisterFixtureRoutes(app, store)
 	api.RegisterPresetRoutes(app, store)
 	api.RegisterShowRoutes(app, store)
-	api.RegisterProjectRoutes(app, store)
+	api.RegisterProjectRoutes(app, store, config.EnableDMX)
 
 	if config.EnableDMX {
-		log.Printf("Initializing DMX controller on %s...", config.DMXPort)
-		if err := ws.InitializeDMXController(config.DMXPort); err != nil {
+		log.Printf("Initializing DMX controller on %s...", dmxPort)
+		if err := ws.InitializeDMXController(dmxPort); err != nil {
 			log.Printf("Warning: Failed to initialize DMX controller: %v", err)
 			log.Println("DMX features will be disabled")
 		} else {
@@ -147,7 +152,7 @@ func main() {
 	log.Printf("📁 Data file: %s", config.DataFilePath)
 	log.Printf("🎛️  DMX: %s", func() string {
 		if config.EnableDMX {
-			return "enabled on " + config.DMXPort
+			return "enabled on " + dmxPort
 		}
 		return "disabled"
 	}())

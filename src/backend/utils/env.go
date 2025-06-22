@@ -12,7 +12,6 @@ type Config struct {
 func LoadConfig() *Config {
 	return &Config{
 		ServerPort:   GetEnv("SERVER_PORT", ":3000"),
-		DMXPort:      GetEnv("DMX_PORT", "/dev/cu.usbserial-A10QIXZO"),
 		DataFilePath: GetEnv("DATA_FILE", ".data/project.yaml"),
 		EnableDMX:    GetEnvBool("ENABLE_DMX", true),
 	}

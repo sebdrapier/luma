@@ -3,12 +3,13 @@ package api
 import (
 	"elano.fr/src/backend/models"
 	"elano.fr/src/backend/storage"
+	"elano.fr/src/backend/ws"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
 
-func RegisterProjectRoutes(app *fiber.App, store storage.ProjectStore) {
+func RegisterProjectRoutes(app *fiber.App, store storage.ProjectStore, enableDMX bool) {
 	r := app.Group("/api/projects")
 
 	r.Get("/", func(c *fiber.Ctx) error {
@@ -63,6 +64,15 @@ func RegisterProjectRoutes(app *fiber.App, store storage.ProjectStore) {
 				"error":   "Failed to save project",
 				"details": err.Error(),
 			})
+		}
+
+		if enableDMX {
+			if err := ws.InitializeDMXController(proj.USBInterface); err != nil {
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+					"error":   "Failed to initialize DMX controller",
+					"details": err.Error(),
+				})
+			}
 		}
 
 		status := fiber.StatusOK
@@ -122,6 +132,15 @@ func RegisterProjectRoutes(app *fiber.App, store storage.ProjectStore) {
 				"error":   "Failed to update project",
 				"details": err.Error(),
 			})
+		}
+
+		if enableDMX {
+			if err := ws.InitializeDMXController(proj.USBInterface); err != nil {
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+					"error":   "Failed to initialize DMX controller",
+					"details": err.Error(),
+				})
+			}
 		}
 
 		return c.JSON(proj)
